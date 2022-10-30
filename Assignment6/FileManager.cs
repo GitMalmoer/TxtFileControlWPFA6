@@ -8,5 +8,14 @@ namespace Assignment6
 {
     public class FileManager
     {
+        TaskManager _taskManager;
+        string _token = "1.0";
+
+        public FileManager(TaskManager taskManager)
+        {
+            _taskManager = taskManager;
+        }
+
+
     }
 }

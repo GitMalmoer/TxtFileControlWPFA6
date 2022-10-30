@@ -46,6 +46,22 @@ namespace Assignment6
             }
         }
 
+        public void ChangeTaskAtIndex(Task task, int index)
+        {
+            if(CheckIndex(index) && task != null)
+            {
+                _taskList[index] = task;
+            }
+            else if(task == null)
+            {
+                MessageBox.Show("Error");
+            }
+            else
+            {
+                MessageBox.Show("Wrong selection");
+            }
+        }
+
         public int Count
         {
             get { return _taskList.Count; }

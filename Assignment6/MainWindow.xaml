@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:Assignment6"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    
+        Title="MainWindow" Height="500" Width="800">
+
     <StackPanel>
 
         <Menu Height="25" >
@@ -31,10 +31,10 @@
             </Grid.ColumnDefinitions>
             <Label Content="Data and time" Grid.Column="0" Margin="5 0 5 0"/>
             <DatePicker x:Name="dpickDate" Grid.Column="1" SelectedDateFormat="Short" Margin="5 0 5 0"/>
-            <TextBox x:Name="txtTime"  Grid.Column="2" Margin="5 0 5 0" Width="80" HorizontalAlignment="Left"/>
-            
+            <TextBox x:Name="txtTime"  Grid.Column="2" Margin="5 0 5 0" Width="50" HorizontalAlignment="Left" MaxLength="5"/>
+
         </Grid>
-        
+
         <Grid Margin="0 5 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -46,7 +46,7 @@
             <Label Content="Priority" Grid.Column="0" Margin="5 0 5 0"/>
             <ComboBox x:Name="cmbPriority" Grid.Column="1" Margin="5 0 5 0" SelectionChanged="cmbPriority_SelectionChanged"/>
         </Grid>
-        
+
         <Grid Margin="0 5 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -76,7 +76,7 @@
                 <Label Content="Hour" Grid.Column="1"/>
                 <Label Content="Priority" Grid.Column="2"/>
                 <Label Content="Description" Grid.Column="3"/>
-                <ListBox x:Name="lstTasks" Grid.Row="1" Grid.ColumnSpan="4" Height="200" Margin="5"/>
+                <ListBox x:Name="lstTasks" Grid.Row="1" Grid.ColumnSpan="4" Height="200" Margin="5" SelectionChanged="lstTasks_SelectionChanged"/>
             </Grid>
         </GroupBox>
 
@@ -88,8 +88,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="btnChange" Content="Change" Grid.Column="0" Width="80"/>
-            <Button x:Name="btnDelete" Content="Delete" Grid.Column="1" Width="80"/>
+            <Button x:Name="btnChange" Content="Change" Grid.Column="0" Width="80" Click="btnChange_Click"/>
+            <Button x:Name="btnDelete" Content="Delete" Grid.Column="1" Width="80" Margin="0,0,65,0" Click="btnDelete_Click"/>
         </Grid>
 
     </StackPanel>

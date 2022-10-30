@@ -26,16 +26,17 @@ namespace Assignment6
 
         public MainWindow()
         {
+            taskManager = new TaskManager();
+            //fileManager = new FileManager(taskManager);
             InitializeComponent();
             InitializeGui();
-            fileManager = new FileManager();
-            taskManager = new TaskManager();
         }
 
         private void InitializeGui()
         {
             cmbPriority.ItemsSource = Enum.GetValues(typeof(PriorityType));
             cmbPriority.SelectedIndex = (int)PriorityType.Normal;
+            UpdateList();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -127,13 +128,72 @@ namespace Assignment6
 
         private void UpdateList()
         {
-            lstTasks.Items.Clear();
-            for(int i = 0; i<taskManager.Count;i++)
+            if (taskManager.Count >= 0) // checks if there are items in taskmanager
             {
-                lstTasks.Items.Add(taskManager.GetTaskAtIndex(i).ToString());
+                lstTasks.Items.Clear();
+                for (int i = 0; i < taskManager.Count; i++)
+                {
+                    lstTasks.Items.Add(taskManager.GetTaskAtIndex(i).ToString());
+                }
+            }
+
+            // disables buttons if there is no items in list
+            if(lstTasks.Items.Count != 0)
+            {
+                btnDelete.IsEnabled = true;
+                btnChange.IsEnabled = true;
+            }
+            else
+            {
+                btnDelete.IsEnabled = false;
+                btnChange.IsEnabled = false;
             }
         }
 
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+                int index = lstTasks.SelectedIndex;
+                taskManager.RemoveTaskAtIndex(index);
+                UpdateList();
+        }
 
+        private void btnChange_Click(object sender, RoutedEventArgs e)
+        {
+            int index = lstTasks.SelectedIndex;
+            Task task = new Task();
+            if(ValidateInputs(ref task))
+            {
+                taskManager.ChangeTaskAtIndex(task, index);
+                UpdateList();
+                EmptyInputs();
+                MessageBox.Show("Task has been changed!");
+            }
+        }
+
+        private void lstTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int index = lstTasks.SelectedIndex;
+            if (taskManager.GetTaskAtIndex(index) != null)
+            {
+                txtToDo.Text = taskManager.GetTaskAtIndex(index).TaskName;
+                dpickDate.SelectedDate = taskManager.GetTaskAtIndex(index).DateTime;
+                txtTime.Text = taskManager.GetTaskAtIndex(index).Time;
+                cmbPriority.SelectedIndex = (int)taskManager.GetTaskAtIndex(index).PriorityType;
+            }
+        }
+
+        private void EmptyInputs()
+        {
+            txtToDo.Text = String.Empty;
+            dpickDate.SelectedDate = default;
+            txtTime.Text = String.Empty;
+            cmbPriority.SelectedIndex = (int)PriorityType.Normal;
+
+        }
+
+        private void SaveFileClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
