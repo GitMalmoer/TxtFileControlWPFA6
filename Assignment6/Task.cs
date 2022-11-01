@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Assignment6
 {
@@ -39,7 +35,7 @@ namespace Assignment6
 
         public override string ToString()
         {
-            string TaskToString = string.Format("{0,-50} {1,-50} {2,-50} {3}",_dateTime.ToString("d"),_time,_priorityType,_taskName);
+            string TaskToString = string.Format("{0,-50} {1,-50} {2,-50} {3}", _dateTime.ToString("d"), _time, _priorityType, _taskName);
             return TaskToString;
         }
 

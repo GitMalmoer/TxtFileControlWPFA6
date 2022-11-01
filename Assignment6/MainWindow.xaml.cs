@@ -1,18 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Assignment6
 {
@@ -21,13 +11,12 @@ namespace Assignment6
     /// </summary>
     public partial class MainWindow : Window
     {
-        FileManager fileManager;
         TaskManager taskManager;
+
 
         public MainWindow()
         {
             taskManager = new TaskManager();
-            //fileManager = new FileManager(taskManager);
             InitializeComponent();
             InitializeGui();
         }
@@ -36,18 +25,20 @@ namespace Assignment6
         {
             cmbPriority.ItemsSource = Enum.GetValues(typeof(PriorityType));
             cmbPriority.SelectedIndex = (int)PriorityType.Normal;
+            EmptyInputs();
             UpdateList();
+            
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             Task task = new Task();
-            if(ValidateInputs(ref task))
+            if (ValidateInputs(ref task))
             {
                 taskManager.AddToTaskList(task);
                 UpdateList();
             }
-            
+
         }
 
         private void cmbPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,7 +59,7 @@ namespace Assignment6
         }
         private bool ValidateDatePick(ref Task task)
         {
-            if(dpickDate.SelectedDate.HasValue)
+            if (dpickDate.SelectedDate.HasValue)
             {
                 ReadDatePick(ref task);
                 return true;
@@ -79,7 +70,7 @@ namespace Assignment6
                 return false;
             }
         }
-        
+
         private bool ValidateTimePick(ref Task task)
         {
             // Winforms has dateandtimepick in wpf we dont have that so i needed to make custom time picker
@@ -90,12 +81,12 @@ namespace Assignment6
             }
             else
                 MessageBox.Show("Wrong time! the patter is NN:NN where N is a number. Remember to add also semicolon ':'");
-                return false;
+            return false;
         }
 
         private bool ValidateToDo(ref Task task)
         {
-            if(!string.IsNullOrEmpty(txtToDo.Text))
+            if (!string.IsNullOrEmpty(txtToDo.Text))
             {
                 ReadToDo(ref task);
                 return true;
@@ -138,7 +129,7 @@ namespace Assignment6
             }
 
             // disables buttons if there is no items in list
-            if(lstTasks.Items.Count != 0)
+            if (lstTasks.Items.Count != 0)
             {
                 btnDelete.IsEnabled = true;
                 btnChange.IsEnabled = true;
@@ -152,16 +143,16 @@ namespace Assignment6
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-                int index = lstTasks.SelectedIndex;
-                taskManager.RemoveTaskAtIndex(index);
-                UpdateList();
+            int index = lstTasks.SelectedIndex;
+            taskManager.RemoveTaskAtIndex(index);
+            UpdateList();
         }
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
         {
             int index = lstTasks.SelectedIndex;
             Task task = new Task();
-            if(ValidateInputs(ref task))
+            if (ValidateInputs(ref task))
             {
                 taskManager.ChangeTaskAtIndex(task, index);
                 UpdateList();
@@ -193,7 +184,30 @@ namespace Assignment6
 
         private void SaveFileClick(object sender, RoutedEventArgs e)
         {
+            taskManager.WriteDataToFile();
+        }
 
+        private void OpenDataClick(object sender, RoutedEventArgs e)
+        {
+            taskManager.ReadDataFromFile();
+            UpdateList();
+        }
+
+        private void NewFileClicked(object sender, RoutedEventArgs e)
+        {
+            taskManager.NewTaskList();
+            InitializeGui();
+        }
+
+        private void SaveFileAsClick(object sender, RoutedEventArgs e)
+        {
+            taskManager.SaveFileAs();
+        }
+
+        private void OpenExistingClick(object sender, RoutedEventArgs e)
+        {
+            taskManager.OpenExistingFile();
+            UpdateList();
         }
     }
 }

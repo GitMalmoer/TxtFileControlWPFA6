@@ -11,10 +11,12 @@
     <StackPanel>
 
         <Menu Height="25" >
-            <MenuItem Header="File" FontSize="18">
-                <MenuItem Header="New (Ctrl + N)" />
-                <MenuItem Header="Open datafile"/>
-                <MenuItem Header="Save datafile"/>
+            <MenuItem Header="File" FontSize="18" >
+                <MenuItem Header="New (Ctrl + N)" Click="NewFileClicked" />
+                <MenuItem Header="Open datafile" Click="OpenDataClick"/>
+                <MenuItem Header="Open existing file..." Click ="OpenExistingClick"/>
+                <MenuItem Header="Save datafile" Click="SaveFileClick"  />
+                <MenuItem Header="Save as..." Click="SaveFileAsClick"/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
             <MenuItem Header="Help" FontSize="18">
