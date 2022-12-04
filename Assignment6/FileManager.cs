@@ -129,6 +129,7 @@ namespace Assignment6
                     string exePath = Path.GetFullPath(saveFileDialog.FileName);
                     SaveToTxt(taskList, exePath);
                     saveAsOk = true;
+                    // testiing on json
                 }
                 return saveAsOk;
 
