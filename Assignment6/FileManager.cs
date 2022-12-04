@@ -122,9 +122,9 @@ namespace Assignment6
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
                 saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
                 saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
+                
 
-
-                if (saveFileDialog.ShowDialog() == false)
+                if (saveFileDialog.ShowDialog() == true)
                 {
                     string exePath = Path.GetFullPath(saveFileDialog.FileName);
                     SaveToTxt(taskList, exePath);
