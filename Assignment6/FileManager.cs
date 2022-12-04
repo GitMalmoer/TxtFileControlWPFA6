@@ -1,7 +1,9 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json.Nodes;
 using System.Windows;
 
 namespace Assignment6
@@ -30,10 +32,21 @@ namespace Assignment6
 
                 for (int i = 0; i < taskList.Count; i++)
                 {
-                    streamWriter.WriteLine(taskList[i].DateTime.ToString("d"));
-                    streamWriter.WriteLine(taskList[i].Time);
-                    streamWriter.WriteLine(taskList[i].PriorityType.ToString());
-                    streamWriter.WriteLine(taskList[i].TaskName);
+                    //streamWriter.WriteLine(taskList[i].DateTime.ToString("d"));
+                    //streamWriter.WriteLine(taskList[i].Time);
+                    //streamWriter.WriteLine(taskList[i].PriorityType.ToString());
+                    //streamWriter.WriteLine(taskList[i].TaskName);
+
+                    var jsonTask = new Task()
+                    {
+                        DateTime = taskList[i].DateTime,
+                        Time= taskList[i].Time,
+                        PriorityType= taskList[i].PriorityType,
+                        TaskName= taskList[i].TaskName,
+                    };
+
+                    var jsonTaskJson = JsonConvert.SerializeObject(jsonTask);
+                    streamWriter.WriteLine(jsonTaskJson);
                 }
 
             }
@@ -80,13 +93,16 @@ namespace Assignment6
 
                     for (int i = 0; i < count; i++)
                     {
-                        Task task = new Task();
+                        Task taskjson = new Task();
 
-                        task.DateTime = DateTime.Parse(streamReader.ReadLine());
-                        task.Time = streamReader.ReadLine();
-                        task.PriorityType = (PriorityType)Enum.Parse(typeof(PriorityType), streamReader.ReadLine());
-                        task.TaskName = streamReader.ReadLine();
-                        taskList.Add(task);
+                        //task.DateTime = DateTime.Parse(streamReader.ReadLine());
+                        //task.Time = streamReader.ReadLine();
+                        //task.PriorityType = (PriorityType)Enum.Parse(typeof(PriorityType), streamReader.ReadLine());
+                        //task.TaskName = streamReader.ReadLine();
+                        //taskList.Add(task);
+
+                        taskjson = JsonConvert.DeserializeObject<Task>(streamReader.ReadLine());
+                        taskList.Add(taskjson);
                     }
                     return readOk;
                 }
@@ -124,12 +140,11 @@ namespace Assignment6
                 saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
 
 
-                if (saveFileDialog.ShowDialog() == false)
+                if (saveFileDialog.ShowDialog() == true)
                 {
                     string exePath = Path.GetFullPath(saveFileDialog.FileName);
                     SaveToTxt(taskList, exePath);
                     saveAsOk = true;
-                    // testiing on json
                 }
                 return saveAsOk;
 
