@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-
+using System.Windows.Threading;
 
 namespace Assignment6
 {
@@ -13,9 +13,9 @@ namespace Assignment6
     {
         TaskManager taskManager;
 
-
         public MainWindow()
         {
+            this.WindowStartupLocation = WindowStartupLocation.CenterScreen; // Running program in center of screen
             taskManager = new TaskManager();
             InitializeComponent();
             InitializeGui();
@@ -23,11 +23,23 @@ namespace Assignment6
 
         private void InitializeGui()
         {
+            this.Title = "Txt File controll by Marcin Junka";
             cmbPriority.ItemsSource = Enum.GetValues(typeof(PriorityType));
             cmbPriority.SelectedIndex = (int)PriorityType.Normal;
             EmptyInputs();
             UpdateList();
-            
+
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
+
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            lblTime.Content = DateTime.Now.ToLongTimeString();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
@@ -38,13 +50,8 @@ namespace Assignment6
                 taskManager.AddToTaskList(task);
                 UpdateList();
             }
-
         }
 
-        private void cmbPriority_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
 
 
         private bool ValidateInputs(ref Task task)
@@ -74,13 +81,13 @@ namespace Assignment6
         private bool ValidateTimePick(ref Task task)
         {
             // Winforms has dateandtimepick in wpf we dont have that so i needed to make custom time picker
-            if (Regex.IsMatch(txtTime.Text, @"\A\d\d:\d\d\z"))
+            if (Regex.IsMatch(txtTime.Text, @"\b(0[0-9]|[1][0-9]|[2][0-3]):(0[0-9]|[0-5][0-9])|24:00\b"))
             {
                 ReadTimePick(ref task);
                 return true;
             }
             else
-                MessageBox.Show("Wrong time! the patter is NN:NN where N is a number. Remember to add also semicolon ':'");
+                MessageBox.Show("Wrong time! the patter is NN:NN where N is a number. Remember to add also semicolon ':' use numbers from 00-24 for hours and 00-59 for minutes");
             return false;
         }
 
@@ -102,6 +109,7 @@ namespace Assignment6
         {
             task.DateTime = dpickDate.SelectedDate.Value;
             return task;
+            
         }
 
         private Task ReadTimePick(ref Task task)
@@ -144,8 +152,14 @@ namespace Assignment6
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             int index = lstTasks.SelectedIndex;
-            taskManager.RemoveTaskAtIndex(index);
-            UpdateList();
+            Confirmation confirmationWindow = new Confirmation("Do you want to delete this task?");
+            confirmationWindow.ShowDialog();
+
+            if (confirmationWindow.DialogResult == true)
+            {
+                taskManager.RemoveTaskAtIndex(index);
+                UpdateList();
+            }
         }
 
         private void btnChange_Click(object sender, RoutedEventArgs e)
@@ -208,6 +222,26 @@ namespace Assignment6
         {
             taskManager.OpenExistingFile();
             UpdateList();
+        }
+
+        private void ExitClick(object sender, RoutedEventArgs e)
+        {
+            Confirmation confirmationExit = new Confirmation("Are you sure you want to quit?");
+            confirmationExit.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            confirmationExit.ShowDialog();
+
+            if(confirmationExit.DialogResult == true)
+            {
+                this.Close();
+            }
+
+
+        }
+
+        private void AboutClicked(object sender, RoutedEventArgs e)
+        {
+            AboutWindow aboutWindow = new AboutWindow();
+            aboutWindow.ShowDialog();
         }
     }
 }

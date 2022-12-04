@@ -13,14 +13,18 @@
         <Menu Height="25" >
             <MenuItem Header="File" FontSize="18" >
                 <MenuItem Header="New (Ctrl + N)" Click="NewFileClicked" />
+                <Separator/>
                 <MenuItem Header="Open datafile" Click="OpenDataClick"/>
                 <MenuItem Header="Open existing file..." Click ="OpenExistingClick"/>
+                <Separator/>
                 <MenuItem Header="Save datafile" Click="SaveFileClick"  />
                 <MenuItem Header="Save as..." Click="SaveFileAsClick"/>
-                <MenuItem Header="Exit"/>
+                <Separator/>
+                <MenuItem Header="Exit" Click="ExitClick" />
             </MenuItem>
             <MenuItem Header="Help" FontSize="18">
-                <MenuItem Header="about"/>
+                <MenuItem Header="about" Click="AboutClicked" />
+                
             </MenuItem>
         </Menu>
         <Grid >
@@ -31,10 +35,11 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            
             <Label Content="Data and time" Grid.Column="0" Margin="5 0 5 0"/>
-            <DatePicker x:Name="dpickDate" Grid.Column="1" SelectedDateFormat="Short" Margin="5 0 5 0"/>
-            <TextBox x:Name="txtTime"  Grid.Column="2" Margin="5 0 5 0" Width="50" HorizontalAlignment="Left" MaxLength="5"/>
-
+            <DatePicker x:Name="dpickDate" Grid.Column="1" SelectedDateFormat="Short" Margin="5 0 5 0" ToolTip="Chose date here" />
+            <TextBox x:Name="txtTime"  Grid.Column="2" Margin="5 0 5 0" Width="50" HorizontalAlignment="Left" MaxLength="5" ToolTip="Write time here"/>
+            
         </Grid>
 
         <Grid Margin="0 5 0 0">
@@ -46,7 +51,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Priority" Grid.Column="0" Margin="5 0 5 0"/>
-            <ComboBox x:Name="cmbPriority" Grid.Column="1" Margin="5 0 5 0" SelectionChanged="cmbPriority_SelectionChanged"/>
+            <ComboBox x:Name="cmbPriority" Grid.Column="1" Margin="5 0 5 0"/>
         </Grid>
 
         <Grid Margin="0 5 0 0">
@@ -92,6 +97,7 @@
 
             <Button x:Name="btnChange" Content="Change" Grid.Column="0" Width="80" Click="btnChange_Click"/>
             <Button x:Name="btnDelete" Content="Delete" Grid.Column="1" Width="80" Margin="0,0,65,0" Click="btnDelete_Click"/>
+            <Label x:Name="lblTime" Grid.Column="3" BorderBrush="Black" BorderThickness="1" Width="55"/>
         </Grid>
 
     </StackPanel>

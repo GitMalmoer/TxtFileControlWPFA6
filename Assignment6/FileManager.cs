@@ -124,7 +124,7 @@ namespace Assignment6
                 saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
 
 
-                if (saveFileDialog.ShowDialog() == true)
+                if (saveFileDialog.ShowDialog() == false)
                 {
                     string exePath = Path.GetFullPath(saveFileDialog.FileName);
                     SaveToTxt(taskList, exePath);
@@ -146,7 +146,6 @@ namespace Assignment6
             bool openOk = true;
             try
             {
-
                 OpenFileDialog openFileDialog = new OpenFileDialog();
                 openFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
                 openFileDialog.InitialDirectory = Environment.CurrentDirectory;
@@ -154,7 +153,6 @@ namespace Assignment6
                 if (openFileDialog.ShowDialog() == true)
                 {
                     ReadFromTxt(taskList, Path.GetFileName(openFileDialog.FileName));
-                    
                 }
                 return openOk;
             }
