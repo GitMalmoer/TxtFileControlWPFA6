@@ -40,7 +40,7 @@ namespace Assignment6
                     var jsonTask = new Task()
                     {
                         DateTime = taskList[i].DateTime,
-                        Time= taskList[i].Time,
+                        Time = taskList[i].Time,
                         PriorityType= taskList[i].PriorityType,
                         TaskName= taskList[i].TaskName,
                     };
@@ -136,7 +136,7 @@ namespace Assignment6
             try
             {
                 SaveFileDialog saveFileDialog = new SaveFileDialog();
-                saveFileDialog.Filter = "Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveFileDialog.Filter = "|*.txt|All files (*.*)|*.*";
                 saveFileDialog.InitialDirectory = Environment.CurrentDirectory;
 
 
